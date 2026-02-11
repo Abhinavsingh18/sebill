@@ -142,7 +142,9 @@ export default function Home() {
       // 3. Print
       window.print();
     } catch (error) {
-      alert('Failed to save bill! Printing anyway...');
+      console.error(error);
+      const msg = error.response?.data?.error || error.message || 'Unknown error';
+      alert(`Failed to save bill: ${msg}. Printing anyway...`);
       window.print();
     }
   };
