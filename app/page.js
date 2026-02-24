@@ -257,7 +257,9 @@ export default function Home() {
         <aside className="editor-panel">
           <header className="panel-header">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h1 style={{ color: '#3b82f6', fontSize: '1.2rem', fontWeight: '600' }}><i className="fa-solid fa-file-invoice-dollar"></i> Bill Generator</h1>
+              <h1 style={{ color: '#3b82f6', fontSize: '1.2rem', fontWeight: '600' }}>
+                <i className="fa-solid fa-file-invoice-dollar"></i> Bill App V2.1
+              </h1>
               <div>
                 <button className="icon-btn-small" onClick={toggleHistory} title="History" style={{ marginRight: 10 }}><i className="fa-solid fa-clock-rotate-left"></i></button>
                 <button className="icon-btn-small" onClick={logout} title="Logout"><i className="fa-solid fa-right-from-bracket"></i></button>
