@@ -215,12 +215,12 @@ a {
   background: white;
   width: 210mm;
   min-height: 297mm;
-  padding: 10mm;
+  padding: 12mm;
   color: black;
   font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   position: relative;
-  font-size: 10pt;
+  font-size: 10.5pt;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s;
@@ -230,53 +230,59 @@ a {
 .bill-header {
   text-align: center;
   border-bottom: 2.5px solid black;
-  padding-bottom: 3mm;
-  margin-bottom: 3mm;
+  padding-bottom: 4mm;
+  margin-bottom: 4mm;
 }
 
 .bill-header h1 {
   margin: 0;
-  font-size: 20pt;
+  font-size: 22pt;
 }
 
 .address {
   margin: 1.5mm 0;
-  font-size: 9pt;
+  font-size: 9.5pt;
 }
 
 .bill-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.5mm;
-  margin-bottom: 3mm;
+  margin-bottom: 5mm;
+  border-top: 1px solid #000;
 }
 
 .grid-row {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   align-items: center;
+  padding: 1.5mm 0;
+  border-bottom: 1px solid #eee;
+}
+
+.grid-row:last-child {
+  border-bottom: 1px solid #000;
 }
 
 .bill-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 3mm 0;
+  margin: 5mm 0;
 }
 
 .bill-table th,
 .bill-table td {
   border: 1px solid black;
-  padding: 2mm;
+  padding: 2.5mm;
   text-align: left;
 }
 
 .bill-footer-totals {
   margin-left: auto;
-  width: 55mm;
+  width: 60mm;
   display: flex;
   flex-direction: column;
-  gap: 1.5mm;
-  margin-top: 3mm;
+  gap: 2mm;
+  margin-top: 5mm;
 }
 
 .total-row {
@@ -286,10 +292,10 @@ a {
 
 .barcodes {
   display: flex;
-  gap: 10mm;
+  gap: 12mm;
   justify-content: center;
   margin-top: auto;
-  padding-top: 10mm;
+  padding-top: 15mm;
 }
 
 .barcode-box {

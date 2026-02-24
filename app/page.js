@@ -390,21 +390,17 @@ export default function Home() {
                   <div className="col"><strong>Receipt No:</strong> <span>{receiptNo}</span></div>
                   <div className="col text-right"><strong>Date:</strong> <span>{formatDate(date)}</span></div>
                 </div>
-                {sourceLab && (
-                  <div className="grid-row" style={{ borderTop: '1px dashed #eee', marginTop: 2, paddingTop: 2 }}>
-                    <div className="col"><strong>Tests Conducted By:</strong> <span>{sourceLab}</span></div>
-                  </div>
-                )}
-                <div className="grid-row">
-                  <div className="col"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
-                  <div className="col text-right"><strong>Gender/Age:</strong> <span>{gender} / {age}</span></div>
-                </div>
                 <div className="grid-row">
                   <div className="col"><strong>Patient Name:</strong> <span>{patientName}</span></div>
-                  <div className="col text-right"><strong>Advise Date:</strong> <span>{formatDate(adviseDate)}</span></div>
+                  <div className="col text-right"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
                 </div>
                 <div className="grid-row">
-                  <div className="col"><strong>Advised By:</strong> <span>{advisedBy}</span></div>
+                  <div className="col"><strong>Gender/Age:</strong> <span>{gender} / {age}</span></div>
+                  <div className="col text-right"><strong>Advised By:</strong> <span>{advisedBy}</span></div>
+                </div>
+                <div className="grid-row">
+                  <div className="col"><strong>Advise Date:</strong> <span>{formatDate(adviseDate)}</span></div>
+                  <div className="col text-right">{sourceLab && <><strong>Conducted By:</strong> <span>{sourceLab}</span></>}</div>
                 </div>
               </div>
 
