@@ -375,11 +375,13 @@ export default function Home() {
             <div className="bill-paper">
               {/* Header */}
               <header className="bill-header">
-                <h1 style={{ textTransform: 'uppercase' }}>{labName}</h1>
+                <div style={{ fontSize: '9pt', fontWeight: 'bold', marginBottom: '-5px' }}>VIA</div>
+                <h1 style={{ textTransform: 'uppercase', marginBottom: '2px' }}>{labName}</h1>
+                <div style={{ fontSize: '10pt', fontWeight: 'bold', marginBottom: '5px' }}>GSTIN: 23BJHPB7822E1ZN</div>
                 <p className="address">119 KRISHNA MALL ROXY TALKIES KAMPOO LASHKAR GWALIOR 474001</p>
                 <div className="contact-info" style={{ fontSize: '8pt' }}>
                   <p>OFFICE TIMING : 08 AM TO 10 PM , SUNDAY - OPEN</p>
-                  <p>Phone : 0751-4079406 | E-mail : SAMRIDDHIENTERPRISES51@GMAIL.COM</p>
+                  <p>Toll Free : 1800-889-9818 | E-mail : SAMRIDDHIENTERPRISES51@GMAIL.COM</p>
                 </div>
               </header>
 
