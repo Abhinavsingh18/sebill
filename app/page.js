@@ -365,7 +365,7 @@ export default function Home() {
         {/* PREVIEW PANEL */}
         <main className="preview-panel">
           <div className="preview-header">
-            <h2>Live Preview (A5 Size)</h2>
+            <h2>Live Preview (A4 Size)</h2>
           </div>
 
           <div className="bill-wrapper">
@@ -396,7 +396,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="grid-row">
-                  <div className="col"><strong>Receipt No:</strong> <span>{receiptNo}</span></div>
+                  <div className="col"></div>
                   <div className="col text-right"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
                 </div>
                 <div className="grid-row">
