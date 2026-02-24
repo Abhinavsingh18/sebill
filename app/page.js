@@ -1,5 +1,5 @@
 'use client';
-// Deployment Trigger: Updated Header with VIA and GSTIN - Feb 24 (Fixed Sr No)
+// Deployment Trigger: Public Repo - A4 Size & Fixed Receipt No - Feb 25
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
