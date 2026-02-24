@@ -445,7 +445,7 @@ export default function Home() {
 
               {/* Disclaimer */}
               <footer style={{ fontSize: '7pt', textAlign: 'center', borderTop: '1px solid #000', paddingTop: '2mm', marginTop: 'auto' }}>
-                <p>Once Registered avail lifetime access to features like online reports, SMS alerts & permanent health records anywhere anytime at <strong>myrecords.HealthScion.com</strong> thru above Patient Code & Password: 8g4z83qk</p>
+                <p><strong>Disclaimer:</strong> SAMRIDDHI ENTERPRISES is a service provider only. We do not perform any tests ourselves. We are associated with various certified labs where tests are conducted. We facilitate the coordination and delivery of reports from these diagnostic labs.</p>
                 <div className="barcodes">
                   <div className="barcode-box">
                     <div className="bars">*{receiptNo}*</div>
