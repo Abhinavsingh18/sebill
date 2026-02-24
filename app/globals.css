@@ -158,17 +158,63 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 40px;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+    height: auto;
+  }
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  .editor-panel {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+  }
+
+  .preview-panel {
+    width: 100%;
+    padding: 20px 10px;
+    height: auto;
+  }
+
+  .bill-paper {
+    transform: scale(0.65);
+    transform-origin: top center;
+    margin-bottom: -150px;
+    /* Offset scaled space */
+  }
+}
+
+@media (max-width: 500px) {
+  .bill-paper {
+    transform: scale(0.5);
+    margin-bottom: -300px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-login {
+    font-size: 0.9rem;
+  }
 }
 
 /* The Paper (A5 representation) */
 .bill-paper {
   background: white;
   width: 148mm;
-  height: 210mm;
+  min-height: 210mm;
   padding: 10mm;
   color: black;
   font-family: 'Times New Roman', Times, serif;
@@ -177,7 +223,7 @@ a {
   font-size: 10pt;
   display: flex;
   flex-direction: column;
-  transform: scale(0.9);
+  transition: transform 0.3s;
 }
 
 /* Bill Specifics */

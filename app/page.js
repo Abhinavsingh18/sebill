@@ -18,7 +18,6 @@ export default function Home() {
   const [gender, setGender] = useState('Female');
   const [patientCode, setPatientCode] = useState('');
   const [receiptNo, setReceiptNo] = useState('001');
-  const [srNo, setSrNo] = useState('001');
   const [date, setDate] = useState('');
   const [sourceLab, setSourceLab] = useState('');
   const [advisedBy, setAdvisedBy] = useState('');
@@ -128,7 +127,7 @@ export default function Home() {
       date,
       netAmount: `Rs ${netAmount.toFixed(2)}`,
       fullState: {
-        labName, items, discount, age, gender, patientCode, srNo, advisedBy, adviseDate, sourceLab
+        labName, items, discount, age, gender, patientCode, advisedBy, adviseDate, sourceLab
       }
     };
 
@@ -170,7 +169,6 @@ export default function Home() {
     setAge(s.age);
     setGender(s.gender);
     setPatientCode(s.patientCode);
-    setSrNo(s.srNo);
     setAdvisedBy(s.advisedBy);
     setAdviseDate(s.adviseDate);
     setSourceLab(s.sourceLab);
@@ -303,10 +301,6 @@ export default function Home() {
                   <label>Receipt No</label>
                   <input value={receiptNo} onChange={e => setReceiptNo(e.target.value)} />
                 </div>
-                <div className="input-wrapper">
-                  <label>Sr. No</label>
-                  <input value={srNo} onChange={e => setSrNo(e.target.value)} />
-                </div>
               </div>
               <div className="grid-2">
                 <div className="input-wrapper">
@@ -400,7 +394,7 @@ export default function Home() {
                   </div>
                 )}
                 <div className="grid-row">
-                  <div className="col"><strong>Sr.No:</strong> <span>{srNo}</span></div>
+                  <div className="col"><strong>Receipt No:</strong> <span>{receiptNo}</span></div>
                   <div className="col text-right"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
                 </div>
                 <div className="grid-row">
