@@ -120,6 +120,11 @@ export default function Home() {
 
   // Actions
   const handleGenerate = async () => {
+    if (!patientName.trim()) {
+      alert('Please enter Patient Name before generating the receipt.');
+      return;
+    }
+
     // 1. Save Bill
     const billData = {
       receiptNo,
