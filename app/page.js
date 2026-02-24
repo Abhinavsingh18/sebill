@@ -372,11 +372,11 @@ export default function Home() {
             <div className="bill-paper">
               {/* Header */}
               <header className="bill-header">
-                <div style={{ fontSize: '9pt', fontWeight: 'bold', marginBottom: '-5px' }}>VIA</div>
-                <h1 style={{ textTransform: 'uppercase', marginBottom: '2px' }}>{labName}</h1>
-                <div style={{ fontSize: '10pt', fontWeight: 'bold', marginBottom: '5px' }}>GSTIN: 23BJHPB7822E1ZN</div>
+                <div style={{ fontSize: '10pt', fontWeight: 'bold' }}>VIA</div>
+                <h1 style={{ textTransform: 'uppercase', margin: '1mm 0' }}>{labName}</h1>
+                <div style={{ fontSize: '11pt', fontWeight: 'bold', marginBottom: '2mm' }}>GSTIN: 23BJHPB7822E1ZN</div>
                 <p className="address">119 KRISHNA MALL ROXY TALKIES KAMPOO LASHKAR GWALIOR 474001</p>
-                <div className="contact-info" style={{ fontSize: '8pt' }}>
+                <div className="contact-info" style={{ fontSize: '9pt' }}>
                   <p>OFFICE TIMING : 08 AM TO 10 PM , SUNDAY - OPEN</p>
                   <p>Toll Free : 1800-889-9818 | E-mail : SAMRIDDHIENTERPRISES51@GMAIL.COM</p>
                 </div>
@@ -396,16 +396,15 @@ export default function Home() {
                   </div>
                 )}
                 <div className="grid-row">
-                  <div className="col"></div>
-                  <div className="col text-right"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
-                </div>
-                <div className="grid-row">
-                  <div className="col"><strong>Patient Name:</strong> <span>{patientName}</span></div>
+                  <div className="col"><strong>Patient Code:</strong> <span>{patientCode}</span></div>
                   <div className="col text-right"><strong>Gender/Age:</strong> <span>{gender} / {age}</span></div>
                 </div>
                 <div className="grid-row">
-                  <div className="col"><strong>Advised By:</strong> <span>{advisedBy}</span></div>
+                  <div className="col"><strong>Patient Name:</strong> <span>{patientName}</span></div>
                   <div className="col text-right"><strong>Advise Date:</strong> <span>{formatDate(adviseDate)}</span></div>
+                </div>
+                <div className="grid-row">
+                  <div className="col"><strong>Advised By:</strong> <span>{advisedBy}</span></div>
                 </div>
               </div>
 
@@ -461,7 +460,7 @@ export default function Home() {
             </div>
           </div>
         </main>
-      </div>
-    </main>
+      </div >
+    </main >
   );
 }
