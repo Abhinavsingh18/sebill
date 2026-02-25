@@ -1,13 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
-export default function HistoryPage() {
+function HistoryContent() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [historyList, setHistoryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const searchParams = useSearchParams();
+    const from = searchParams.get('from'); // 'service' or 'company'
 
     useEffect(() => {
         const sess = sessionStorage.getItem('isLoggedIn');
@@ -22,7 +25,14 @@ export default function HistoryPage() {
     const fetchHistory = async () => {
         try {
             const { data } = await axios.get('/api/bills');
-            setHistoryList(data);
+            // Filter history based on where we came from
+            if (from === 'company') {
+                setHistoryList(data.filter(b => b.fullState?.type === 'company'));
+            } else if (from === 'service') {
+                setHistoryList(data.filter(b => b.fullState?.type !== 'company'));
+            } else {
+                setHistoryList(data);
+            }
         } catch (e) {
             console.error('Failed to fetch history', e);
         } finally {
@@ -46,12 +56,17 @@ export default function HistoryPage() {
         );
     }
 
+    const backPath = from === 'company' ? '/company' : (from === 'service' ? '/service' : '/');
+
     return (
         <main style={{ overflow: 'auto', height: '100vh', width: '100%' }}>
             <div className="history-container">
                 <header className="history-page-header">
-                    <h1><i className="fa-solid fa-clock-rotate-left"></i> Transaction History</h1>
-                    <Link href="/">
+                    <h1>
+                        <i className="fa-solid fa-clock-rotate-left"></i>
+                        {from === 'company' ? ' Company Invoice History' : (from === 'service' ? ' Service Bill History' : ' Transaction History')}
+                    </h1>
+                    <Link href={backPath}>
                         <button className="btn-back">
                             <i className="fa-solid fa-arrow-left"></i> Back to Generator
                         </button>
@@ -62,7 +77,7 @@ export default function HistoryPage() {
                     {historyList.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: '50px', color: '#94a3b8' }}>
                             <i className="fa-solid fa-folder-open" style={{ fontSize: '3rem', marginBottom: '20px', display: 'block' }}></i>
-                            No bills found in history.
+                            No {from || ''} bills found in history.
                         </div>
                     ) : (
                         <table className="history-table">
@@ -70,7 +85,7 @@ export default function HistoryPage() {
                                 <tr>
                                     <th>Receipt No</th>
                                     <th>Date</th>
-                                    <th>Patient Name</th>
+                                    <th>{from === 'company' ? 'Party Name' : 'Patient Name'}</th>
                                     <th>Amount</th>
                                     <th style={{ textAlign: 'right' }}>Action</th>
                                 </tr>
@@ -104,5 +119,13 @@ export default function HistoryPage() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function HistoryPage() {
+    return (
+        <Suspense fallback={<div style={{ color: 'white', padding: 50 }}>Loading...</div>}>
+            <HistoryContent />
+        </Suspense>
     );
 }

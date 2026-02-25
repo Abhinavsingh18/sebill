@@ -195,7 +195,7 @@ export default function CompanyBillPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <h1 style={{ color: '#3b82f6', fontSize: '1.2rem' }}><i className="fa-solid fa-building"></i> Company Bill</h1>
                         <div style={{ display: 'flex', gap: '10px' }}>
-                            <Link href="/history">
+                            <Link href="/history?from=company">
                                 <button className="icon-btn-small" title="History"><i className="fa-solid fa-clock-rotate-left"></i></button>
                             </Link>
                             <Link href="/">
