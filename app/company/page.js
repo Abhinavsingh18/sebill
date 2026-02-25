@@ -245,7 +245,7 @@ export default function CompanyBillPage() {
                                 <p>shop no. 112, 119, 120 , 1st floor ,</p>
                                 <p>krishna mall , infront of roxy talkies</p>
                                 <p>lashkar , Gwalior Gwalior 474001</p>
-                                <p><strong>Phone:</strong> 9407588473</p>
+                                <p><strong>Toll Free:</strong> 1800-889-9818</p>
                                 <p><strong>GSTIN:</strong> 23BJHPB7822E1ZN | <strong>State:</strong> MADHYA PRADESH</p>
                             </div>
                         </div>
