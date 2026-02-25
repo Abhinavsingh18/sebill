@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function Home() {
   // Auth State
@@ -43,7 +44,24 @@ export default function Home() {
 
     // Remove loading screen
     setIsLoading(false);
+
+    // Check if we arrived here to load a specific bill
+    const loadId = sessionStorage.getItem('loadBillId');
+    if (loadId && sess) {
+      sessionStorage.removeItem('loadBillId');
+      fetchAndLoadBill(loadId);
+    }
   }, []);
+
+  const fetchAndLoadBill = async (id) => {
+    try {
+      const { data } = await axios.get('/api/bills');
+      const bill = data.find(b => (b._id || b.id) === id);
+      if (bill) loadBill(bill);
+    } catch (e) {
+      console.error('Failed to load specific bill', e);
+    }
+  };
 
   // Fetch Next Receipt on Login
   useEffect(() => {
@@ -215,47 +233,6 @@ export default function Home() {
         </div>
       )}
 
-      {showHistory && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2><i className="fa-solid fa-clock-rotate-left"></i> Bill History</h2>
-              <button className="close-btn" onClick={() => setShowHistory(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '1.2rem', cursor: 'pointer' }}>
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <div className="modal-body">
-              <table className="history-table">
-                <thead>
-                  <tr>
-                    <th>Receipt No</th>
-                    <th>Date</th>
-                    <th>Patient Name</th>
-                    <th>Amount</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historyList.map(item => (
-                    <tr key={item._id || item.id}>
-                      <td>{item.receiptNo}</td>
-                      <td>{new Date(item.date).toLocaleDateString()}</td>
-                      <td>{item.patientName}</td>
-                      <td>{item.netAmount}</td>
-                      <td>
-                        <button className="icon-btn-small" onClick={() => loadBill(item)}>
-                          <i className="fa-solid fa-folder-open"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="app-container" style={{ filter: isLoggedIn ? 'none' : 'blur(5px)' }}>
 
         {/* EDIT PANEL */}
@@ -266,7 +243,9 @@ export default function Home() {
                 <i className="fa-solid fa-file-invoice-dollar"></i> Bill App V2.1
               </h1>
               <div>
-                <button className="icon-btn-small" onClick={toggleHistory} title="History" style={{ marginRight: 10 }}><i className="fa-solid fa-clock-rotate-left"></i></button>
+                <Link href="/history">
+                  <button className="icon-btn-small" title="History" style={{ marginRight: 10 }}><i className="fa-solid fa-clock-rotate-left"></i></button>
+                </Link>
                 <button className="icon-btn-small" onClick={logout} title="Logout"><i className="fa-solid fa-right-from-bracket"></i></button>
               </div>
             </div>
