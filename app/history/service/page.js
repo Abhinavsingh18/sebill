@@ -1,16 +1,13 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
-function HistoryContent() {
+export default function ServiceHistoryPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [historyList, setHistoryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const searchParams = useSearchParams();
-    const from = searchParams.get('from'); // 'service' or 'company'
 
     useEffect(() => {
         const sess = sessionStorage.getItem('isLoggedIn');
@@ -25,14 +22,9 @@ function HistoryContent() {
     const fetchHistory = async () => {
         try {
             const { data } = await axios.get('/api/bills');
-            // Filter history based on where we came from
-            if (from === 'company') {
-                setHistoryList(data.filter(b => b.fullState?.type === 'company'));
-            } else if (from === 'service') {
-                setHistoryList(data.filter(b => b.fullState?.type !== 'company'));
-            } else {
-                setHistoryList(data);
-            }
+            // STRICT FILTER: Only show service bills (exclude type: company)
+            const serviceBills = data.filter(b => b.fullState?.type !== 'company');
+            setHistoryList(serviceBills);
         } catch (e) {
             console.error('Failed to fetch history', e);
         } finally {
@@ -40,14 +32,14 @@ function HistoryContent() {
         }
     };
 
-    if (isLoading) return <div style={{ color: 'white', padding: 50 }}>Loading History...</div>;
+    if (isLoading) return <div style={{ color: 'white', padding: 50 }}>Loading Service History...</div>;
 
     if (!isLoggedIn) {
         return (
             <div className="login-overlay">
                 <div className="login-box">
                     <h2>Unauthorized</h2>
-                    <p style={{ margin: '20px 0', color: '#94a3b8' }}>Please login on the main page first.</p>
+                    <p style={{ margin: '20px 0', color: '#94a3b8' }}>Please login first.</p>
                     <Link href="/">
                         <button className="btn-login">Go to Login</button>
                     </Link>
@@ -56,17 +48,12 @@ function HistoryContent() {
         );
     }
 
-    const backPath = from === 'company' ? '/company' : (from === 'service' ? '/service' : '/');
-
     return (
         <main style={{ overflow: 'auto', height: '100vh', width: '100%' }}>
             <div className="history-container">
                 <header className="history-page-header">
-                    <h1>
-                        <i className="fa-solid fa-clock-rotate-left"></i>
-                        {from === 'company' ? ' Company Invoice History' : (from === 'service' ? ' Service Bill History' : ' Transaction History')}
-                    </h1>
-                    <Link href={backPath}>
+                    <h1><i className="fa-solid fa-clock-rotate-left"></i> Service Bill History</h1>
+                    <Link href="/service">
                         <button className="btn-back">
                             <i className="fa-solid fa-arrow-left"></i> Back to Generator
                         </button>
@@ -77,7 +64,7 @@ function HistoryContent() {
                     {historyList.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: '50px', color: '#94a3b8' }}>
                             <i className="fa-solid fa-folder-open" style={{ fontSize: '3rem', marginBottom: '20px', display: 'block' }}></i>
-                            No {from || ''} bills found in history.
+                            No service bills found.
                         </div>
                     ) : (
                         <table className="history-table">
@@ -85,7 +72,7 @@ function HistoryContent() {
                                 <tr>
                                     <th>Receipt No</th>
                                     <th>Date</th>
-                                    <th>{from === 'company' ? 'Party Name' : 'Patient Name'}</th>
+                                    <th>Patient Name</th>
                                     <th>Amount</th>
                                     <th style={{ textAlign: 'right' }}>Action</th>
                                 </tr>
@@ -119,13 +106,5 @@ function HistoryContent() {
                 </div>
             </div>
         </main>
-    );
-}
-
-export default function HistoryPage() {
-    return (
-        <Suspense fallback={<div style={{ color: 'white', padding: 50 }}>Loading...</div>}>
-            <HistoryContent />
-        </Suspense>
     );
 }

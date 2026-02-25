@@ -231,7 +231,7 @@ export default function Home() {
                 <i className="fa-solid fa-file-invoice-dollar"></i> Bill App V2.1
               </h1>
               <div>
-                <Link href="/history?from=service">
+                <Link href="/history/service">
                   <button className="icon-btn-small" title="History" style={{ marginRight: 10 }}><i className="fa-solid fa-clock-rotate-left"></i></button>
                 </Link>
                 <Link href="/">
