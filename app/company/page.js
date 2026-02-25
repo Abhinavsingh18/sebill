@@ -24,6 +24,7 @@ export default function CompanyBillPage() {
     const [items, setItems] = useState([
         { id: 1, name: 'Medical Ink', pricePerUnit: 200, qty: 2, taxPercent: 18 }
     ]);
+    const [savedProducts, setSavedProducts] = useState([]);
 
     useEffect(() => {
         const sess = sessionStorage.getItem('isLoggedIn');
@@ -35,6 +36,9 @@ export default function CompanyBillPage() {
                 fetchAndLoadBill(loadId);
             }
         }
+        // Load saved products from localStorage
+        const saved = JSON.parse(localStorage.getItem('companyProducts') || '[]');
+        setSavedProducts(saved);
     }, []);
 
     const fetchAndLoadBill = async (id) => {
@@ -77,7 +81,22 @@ export default function CompanyBillPage() {
     };
 
     const updateItem = (id, field, value) => {
-        setItems(items.map(item => item.id === id ? { ...item, [field]: value } : item));
+        const updatedItems = items.map(item => {
+            if (item.id === id) {
+                const newItem = { ...item, [field]: value };
+                // If name changed, check if it matches a saved product to auto-fill
+                if (field === 'name') {
+                    const match = savedProducts.find(p => p.name.toLowerCase() === value.toLowerCase());
+                    if (match) {
+                        newItem.pricePerUnit = match.pricePerUnit;
+                        newItem.taxPercent = match.taxPercent;
+                    }
+                }
+                return newItem;
+            }
+            return item;
+        });
+        setItems(updatedItems);
     };
 
     const removeItem = (id) => {
@@ -123,6 +142,21 @@ export default function CompanyBillPage() {
         };
 
         try {
+            // Save new products to suggestions list
+            const newSavedProducts = [...savedProducts];
+            items.forEach(item => {
+                if (item.name) {
+                    const idx = newSavedProducts.findIndex(p => p.name.toLowerCase() === item.name.toLowerCase());
+                    if (idx > -1) {
+                        newSavedProducts[idx] = { name: item.name, pricePerUnit: item.pricePerUnit, taxPercent: item.taxPercent };
+                    } else {
+                        newSavedProducts.push({ name: item.name, pricePerUnit: item.pricePerUnit, taxPercent: item.taxPercent });
+                    }
+                }
+            });
+            localStorage.setItem('companyProducts', JSON.stringify(newSavedProducts));
+            setSavedProducts(newSavedProducts);
+
             await axios.post('/api/bills', billData);
             window.print();
         } catch (e) {
@@ -202,7 +236,14 @@ export default function CompanyBillPage() {
                     </div>
                     {items.map(item => (
                         <div key={item.id} style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px', marginTop: '10px' }}>
-                            <input type="text" value={item.name} onChange={e => updateItem(item.id, 'name', e.target.value)} placeholder="Item Name" style={{ width: '100%', marginBottom: '5px', padding: '5px' }} />
+                            <input
+                                list="product-suggestions"
+                                type="text"
+                                value={item.name}
+                                onChange={e => updateItem(item.id, 'name', e.target.value)}
+                                placeholder="Item Name"
+                                style={{ width: '100%', marginBottom: '5px', padding: '5px' }}
+                            />
                             <div className="grid-2">
                                 <input type="number" value={item.pricePerUnit} onChange={e => updateItem(item.id, 'pricePerUnit', parseFloat(e.target.value))} placeholder="Price (Inc. GST)" style={{ padding: '5px' }} />
                                 <input type="number" value={item.qty} onChange={e => updateItem(item.id, 'qty', parseInt(e.target.value))} placeholder="Qty" style={{ padding: '5px' }} />
@@ -218,6 +259,11 @@ export default function CompanyBillPage() {
                             </div>
                         </div>
                     ))}
+                    <datalist id="product-suggestions">
+                        {savedProducts.map((p, idx) => (
+                            <option key={idx} value={p.name} />
+                        ))}
+                    </datalist>
                 </div>
 
                 <div className="input-wrapper" style={{ marginTop: '20px' }}>
