@@ -35,11 +35,27 @@ export default function CompanyBillPage() {
                 sessionStorage.removeItem('loadBillId');
                 fetchAndLoadBill(loadId);
             }
+            fetchNextInvoice();
         }
         // Load saved products from localStorage
         const saved = JSON.parse(localStorage.getItem('companyProducts') || '[]');
         setSavedProducts(saved);
-    }, []);
+    }, [isLoggedIn]);
+
+    const fetchNextInvoice = async () => {
+        try {
+            const { data } = await axios.get('/api/bills');
+            const companyBills = data.filter(b => b.receiptNo.startsWith('INV-'));
+            if (companyBills.length > 0) {
+                // Find the highest number after 'INV-'
+                const nums = companyBills.map(b => parseInt(b.receiptNo.replace('INV-', ''))).filter(n => !isNaN(n));
+                const max = Math.max(...nums);
+                setInvoiceNo(String(max + 1).padStart(2, '0'));
+            }
+        } catch (e) {
+            console.error('Failed to fetch next invoice no', e);
+        }
+    };
 
     const fetchAndLoadBill = async (id) => {
         try {
@@ -158,10 +174,20 @@ export default function CompanyBillPage() {
             setSavedProducts(newSavedProducts);
 
             await axios.post('/api/bills', billData);
+
+            // Increment Invoice No for next bill
+            const next = parseInt(invoiceNo) + 1;
+            setInvoiceNo(String(next).padStart(2, '0'));
+
             window.print();
         } catch (e) {
             console.error(e);
-            window.print();
+            const errorMsg = e.response?.data?.error || e.message;
+            if (errorMsg.includes('duplicate key')) {
+                alert('This Invoice Number already exists. Please use a different one or refresh.');
+            } else {
+                alert('Error saving bill: ' + errorMsg);
+            }
         }
     };
 
