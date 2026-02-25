@@ -194,7 +194,14 @@ export default function CompanyBillPage() {
                 <header className="panel-header">
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <h1 style={{ color: '#3b82f6', fontSize: '1.2rem' }}><i className="fa-solid fa-building"></i> Company Bill</h1>
-                        <Link href="/"><button className="icon-btn-small"><i className="fa-solid fa-house"></i></button></Link>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                            <Link href="/history">
+                                <button className="icon-btn-small" title="History"><i className="fa-solid fa-clock-rotate-left"></i></button>
+                            </Link>
+                            <Link href="/">
+                                <button className="icon-btn-small" title="Home"><i className="fa-solid fa-house"></i></button>
+                            </Link>
+                        </div>
                     </div>
                 </header>
 
